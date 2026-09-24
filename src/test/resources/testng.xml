@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="My Demo App - Mobile Test Suite" verbose="1">
-    <test name="Core functionality">
+    <test name="Positive scenarios">
         <classes>
-            <class name="mobiletests.tests.LoginTest"/>
-            <class name="mobiletests.tests.LogoutTest"/>
-            <class name="mobiletests.tests.NavigationTest"/>
-            <class name="mobiletests.tests.CartTest"/>
-            <class name="mobiletests.tests.CheckoutValidationTest"/>
+            <class name="mobiletests.tests.positive.LoginTest"/>
+            <class name="mobiletests.tests.positive.LogoutTest"/>
+            <class name="mobiletests.tests.positive.NavigationTest"/>
+            <class name="mobiletests.tests.positive.CartTest"/>
+        </classes>
+    </test>
+    <test name="Negative scenarios">
+        <classes>
+            <class name="mobiletests.tests.negative.LoginNegativeTest"/>
+            <class name="mobiletests.tests.negative.CheckoutValidationTest"/>
         </classes>
     </test>
 </suite>

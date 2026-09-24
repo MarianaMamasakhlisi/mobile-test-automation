@@ -1,4 +1,4 @@
-package mobiletests.tests;
+package mobiletests.tests.negative;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;

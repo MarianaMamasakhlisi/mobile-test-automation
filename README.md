@@ -20,9 +20,10 @@ src/main/java/mobiletests/
   pages/                      Page objects (PageFactory + @AndroidFindBy)
 src/test/java/mobiletests/
   base/                       BaseTest: session setup/teardown, failure screenshots
-  tests/                      TestNG test classes
+  tests/positive/             Happy-path TestNG test classes
+  tests/negative/             Negative/error-path TestNG test classes
 src/test/resources/
-  testng.xml                  Suite definition
+  testng.xml                  Suite definition (separate <test> blocks per group)
   allure.properties           Allure results directory
 ```
 
