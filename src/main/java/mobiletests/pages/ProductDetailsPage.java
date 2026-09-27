@@ -4,6 +4,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class ProductDetailsPage extends BasePage {
 
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/productTV")
@@ -11,6 +13,9 @@ public class ProductDetailsPage extends BasePage {
 
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/priceTV")
     private WebElement productPrice;
+
+    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/colorIV")
+    private List<WebElement> colorSwatches;
 
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/plusIV")
     private WebElement increaseQuantityButton;
@@ -61,6 +66,15 @@ public class ProductDetailsPage extends BasePage {
 
     public boolean isAddToCartButtonEnabled() {
         return waitVisible(addToCartButton).isEnabled();
+    }
+
+    public int getColorOptionCount() {
+        return colorSwatches.size();
+    }
+
+    public ProductDetailsPage selectColor(int index) {
+        waitClickable(colorSwatches.get(index)).click();
+        return this;
     }
 
     public CatalogPage goBackToCatalog() {

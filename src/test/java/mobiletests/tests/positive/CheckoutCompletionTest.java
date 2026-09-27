@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 @Feature("Checkout")
 public class CheckoutCompletionTest extends BaseTest {
 
-    @Test(description = "A logged in user can complete checkout end to end")
+    @Test(description = "A logged in user can complete checkout end to end", groups = "smoke")
     @Description("Walks through shipping info, payment info and order review to confirm a purchase, then checks the cart is cleared")
     public void loggedInUser_canCompleteCheckout() {
         CatalogPage catalog = new CatalogPage(driver);

@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 @Feature("Navigation")
 public class NavigationTest extends BaseTest {
 
-    @Test(description = "Selecting a product from the catalog opens its details screen")
+    @Test(description = "Selecting a product from the catalog opens its details screen", groups = "smoke")
     @Description("Confirms the product details screen shows the same product that was tapped in the catalog")
     public void catalog_navigatesToProductDetails() {
         CatalogPage catalog = new CatalogPage(driver);

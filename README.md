@@ -7,8 +7,9 @@ Java, Maven, Appium (`java-client`) and TestNG, using the Page Object Model with
 
 - Java 17, Maven
 - Appium `java-client` 9.x + UiAutomator2 driver
-- TestNG
+- TestNG, with a one-retry policy for transient emulator/session flakiness and `smoke`/full test groups
 - Allure for HTML test reports
+- GitHub Actions CI on every push and pull request
 
 ## Project layout
 
@@ -20,11 +21,13 @@ src/main/java/mobiletests/
   pages/                      Page objects (PageFactory + @AndroidFindBy)
 src/test/java/mobiletests/
   base/                       BaseTest: session setup/teardown, failure screenshots
+  support/                    RetryAnalyzer + RetryTransformer (auto-retry on transient failures)
   tests/positive/             Happy-path TestNG test classes
   tests/negative/             Negative/error-path TestNG test classes
 src/test/resources/
-  testng.xml                  Suite definition (separate <test> blocks per group)
+  testng.xml                  Suite definition (separate <test> blocks per group, retry listener)
   allure.properties           Allure results directory
+.github/workflows/ci.yml      Runs the suite on every push and pull request
 ```
 
 ## Prerequisites
@@ -72,6 +75,31 @@ mvn clean test
 This installs the app fresh on the emulator, runs the suite defined in `src/test/resources/testng.xml`, and writes
 raw Allure results to `target/allure-results` on every run.
 
+### Running a subset
+
+The core scenarios (one per feature area) are tagged with the TestNG group `smoke`. Run just those:
+
+```bash
+mvn test -Dgroups=smoke
+```
+
+Omit `-Dgroups` to run the full suite, as `mvn clean test` does above.
+
+### Reliability
+
+A cold emulator or a UiAutomator2 hiccup can fail a test for reasons that have nothing to do with the app under
+test. `RetryTransformer` (registered as a TestNG listener in `testng.xml`) applies a one-retry policy to every
+test automatically, so a single transient failure doesn't fail the build; a test that fails twice in a row still
+does.
+
+## Continuous integration
+
+`.github/workflows/ci.yml` boots an Android emulator on a GitHub-hosted runner (via
+[reactivecircus/android-emulator-runner](https://github.com/ReactiveCircus/android-emulator-runner)) and runs the
+full suite on every push and pull request against `main`, uploading the Allure results as a build artifact.
+Emulator-based CI is inherently slower and more failure-prone than a local run against a warm emulator, so treat a
+red run there as a first signal to check, not as equivalent to a local failure.
+
 ## Test report
 
 Generate and open the HTML report after a run:
@@ -99,6 +127,8 @@ A screenshot is attached automatically to any failing test.
 
 **Cart and checkout**
 - Adding a product, increasing quantity, and removing the only item.
+- Re-adding the same product in a different color updates the existing cart line's quantity rather than adding a
+  second one.
 - The quantity selector clamps at 0, and Add to Cart disables itself there instead of silently doing nothing.
 - All five required shipping fields (Full Name, Address Line 1, City, Zip Code, Country), tested one at a time,
   block submission with the app's own inline error message when left empty.

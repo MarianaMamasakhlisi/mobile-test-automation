@@ -12,7 +12,8 @@ import org.testng.annotations.Test;
 @Feature("Authentication")
 public class LogoutTest extends BaseTest {
 
-    @Test(description = "A logged in user can log out after confirming the prompt, and lands back on the login screen")
+    @Test(description = "A logged in user can log out after confirming the prompt, and lands back on the login screen",
+            groups = "smoke")
     @Description("Logs in, then logs out again from the drawer menu, confirms the native logout prompt, and checks the session was cleared")
     public void loggedInUser_canLogOut() {
         CatalogPage catalog = new CatalogPage(driver);

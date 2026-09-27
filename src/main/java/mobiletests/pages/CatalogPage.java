@@ -46,16 +46,6 @@ public class CatalogPage extends BasePage {
 
     // Tapping the title label directly doesn't trigger navigation in this app;
     // only the product image inside the same card is wired up to open the details screen.
-    public ProductDetailsPage openProduct(String productName) {
-        for (int i = 0; i < productTitles.size(); i++) {
-            if (productTitles.get(i).getText().equals(productName)) {
-                waitClickable(productImages.get(i)).click();
-                return new ProductDetailsPage(driver);
-            }
-        }
-        throw new IllegalArgumentException("Product not found in catalog: " + productName);
-    }
-
     public ProductDetailsPage openFirstProduct() {
         return openProductAt(0);
     }

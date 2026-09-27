@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 @Feature("Authentication")
 public class LoginNegativeTest extends BaseTest {
 
-    @Test(description = "A locked out user cannot log in and sees an explanatory error")
+    @Test(description = "A locked out user cannot log in and sees an explanatory error", groups = "smoke")
     @Story("Locked out user")
     @Description("Attempts to log in with the demo app's locked-out account and verifies the inline error message")
     public void lockedOutUser_seesErrorMessage() {

@@ -13,7 +13,8 @@ import org.testng.annotations.Test;
 @Feature("Authentication")
 public class LoginTest extends BaseTest {
 
-    @Test(description = "A user with valid credentials can log in and see the Logout option in the menu")
+    @Test(description = "A user with valid credentials can log in and see the Logout option in the menu",
+            groups = "smoke")
     @Story("Valid login")
     @Description("Logs in with the demo app's standard user and confirms the drawer menu switches from Log In to Log Out")
     public void validCredentials_logsUserIn() {

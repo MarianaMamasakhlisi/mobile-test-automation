@@ -5,6 +5,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartPage extends BasePage {
 
@@ -24,6 +25,9 @@ public class CartPage extends BasePage {
 
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/removeBt")
     private List<WebElement> removeItemButtons;
+
+    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/titleTV")
+    private List<WebElement> lineItemTitles;
 
     public CartPage(AndroidDriver driver) {
         super(driver);
@@ -49,5 +53,13 @@ public class CartPage extends BasePage {
 
     public boolean isEmpty() {
         return removeItemButtons.isEmpty() || isDisplayedSafely(emptyCartMessage);
+    }
+
+    public int getLineItemCount() {
+        return removeItemButtons.size();
+    }
+
+    public List<String> getLineItemTitles() {
+        return lineItemTitles.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

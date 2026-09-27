@@ -14,7 +14,8 @@ import org.testng.annotations.Test;
 @Feature("Checkout")
 public class CheckoutValidationTest extends BaseTest {
 
-    @Test(description = "Submitting the shipping form with the City field empty shows an inline validation message")
+    @Test(description = "Submitting the shipping form with the City field empty shows an inline validation message",
+            groups = "smoke")
     @Description("Clears the required City field on the checkout form and confirms the app blocks submission with an explanatory message")
     public void missingCity_showsValidationMessage() {
         CheckoutInfoPage checkoutInfo = reachCheckoutInfoScreen();
