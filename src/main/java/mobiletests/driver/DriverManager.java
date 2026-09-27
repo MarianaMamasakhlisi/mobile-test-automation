@@ -35,9 +35,6 @@ public final class DriverManager {
                 .setFullReset(false)
                 .setNoReset(false);
 
-        // A cold or busy emulator occasionally misses the app's launch window and reports
-        // the activity as "never started". Back off briefly between attempts so the
-        // activity manager has time to settle instead of retrying into the same load spike.
         Exception lastFailure = null;
         for (int attempt = 1; attempt <= SESSION_START_ATTEMPTS; attempt++) {
             try {

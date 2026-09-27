@@ -26,9 +26,6 @@ public abstract class BaseTest {
         dismissAndroidCompatibilityDialogIfPresent();
     }
 
-    // The emulator's arm64 system image flags this APK's native libs as not
-    // 16 KB page size aligned and shows an OS-level warning on cold start.
-    // It has nothing to do with the app under test, so clear it out of the way.
     private void dismissAndroidCompatibilityDialogIfPresent() {
         try {
             new WebDriverWait(driver, Duration.ofSeconds(5))

@@ -6,8 +6,6 @@ import org.testng.annotations.ITestAnnotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-// Wires RetryAnalyzer into every @Test automatically, so individual test classes don't each
-// need retryAnalyzer = RetryAnalyzer.class repeated on every method.
 public class RetryTransformer implements IAnnotationTransformer {
 
     @Override
