@@ -40,10 +40,6 @@ public class CatalogPage extends BasePage {
         return isDisplayedSafely(waitVisible(screenTitle));
     }
 
-    public String getScreenTitle() {
-        return waitVisible(screenTitle).getText();
-    }
-
     // Tapping the title label directly doesn't trigger navigation in this app;
     // only the product image inside the same card is wired up to open the details screen.
     public ProductDetailsPage openFirstProduct() {

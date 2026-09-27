@@ -11,9 +11,6 @@ public class ProductDetailsPage extends BasePage {
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/productTV")
     private WebElement productTitle;
 
-    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/priceTV")
-    private WebElement productPrice;
-
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/colorIV")
     private List<WebElement> colorSwatches;
 
@@ -35,10 +32,6 @@ public class ProductDetailsPage extends BasePage {
 
     public String getProductTitle() {
         return waitVisible(productTitle).getText();
-    }
-
-    public String getProductPrice() {
-        return waitVisible(productPrice).getText();
     }
 
     public int getQuantity() {

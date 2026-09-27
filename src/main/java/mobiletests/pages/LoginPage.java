@@ -13,9 +13,6 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/nameET")
     private WebElement usernameField;
 
-    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/passwordET")
-    private WebElement passwordField;
-
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/loginBtn")
     private WebElement loginButton;
 
@@ -42,12 +39,6 @@ public class LoginPage extends BasePage {
     public LoginPage enterUsername(String username) {
         waitVisible(usernameField).clear();
         usernameField.sendKeys(username);
-        return this;
-    }
-
-    public LoginPage enterPassword(String password) {
-        waitVisible(passwordField).clear();
-        passwordField.sendKeys(password);
         return this;
     }
 
