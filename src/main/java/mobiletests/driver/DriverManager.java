@@ -15,7 +15,8 @@ public final class DriverManager {
     private DriverManager() {
     }
 
-    private static final int SESSION_START_ATTEMPTS = 2;
+    private static final int SESSION_START_ATTEMPTS = 3;
+    private static final long RETRY_BACKOFF_MILLIS = 4000;
 
     public static AndroidDriver startDriver() {
         File appFile = new File(ConfigReader.get("appPath")).getAbsoluteFile();
@@ -34,8 +35,9 @@ public final class DriverManager {
                 .setFullReset(false)
                 .setNoReset(false);
 
-        // A cold emulator occasionally misses the app's launch window and reports the
-        // activity as "never started" on the first attempt; one retry clears it up.
+        // A cold or busy emulator occasionally misses the app's launch window and reports
+        // the activity as "never started". Back off briefly between attempts so the
+        // activity manager has time to settle instead of retrying into the same load spike.
         Exception lastFailure = null;
         for (int attempt = 1; attempt <= SESSION_START_ATTEMPTS; attempt++) {
             try {
@@ -45,10 +47,21 @@ public final class DriverManager {
                 return driver;
             } catch (Exception e) {
                 lastFailure = e;
+                if (attempt < SESSION_START_ATTEMPTS) {
+                    sleepBeforeRetry();
+                }
             }
         }
         throw new RuntimeException("Failed to start Appium session. Is the Appium server running at "
                 + ConfigReader.get("appiumServerUrl") + "?", lastFailure);
+    }
+
+    private static void sleepBeforeRetry() {
+        try {
+            Thread.sleep(RETRY_BACKOFF_MILLIS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public static AndroidDriver getDriver() {
