@@ -58,7 +58,7 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage useLockedOutUserCredentials() {
-        driver.findElement(AppiumBy.androidUIAutomator(
+        waitVisible(AppiumBy.androidUIAutomator(
                 "new UiSelector().textContains(\"locked out\")")).click();
         return this;
     }
