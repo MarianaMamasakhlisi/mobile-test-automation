@@ -15,6 +15,9 @@ public class ProductDetailsPage extends BasePage {
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/plusIV")
     private WebElement increaseQuantityButton;
 
+    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/minusIV")
+    private WebElement decreaseQuantityButton;
+
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/noTV")
     private WebElement quantityValue;
 
@@ -44,8 +47,24 @@ public class ProductDetailsPage extends BasePage {
         return this;
     }
 
+    public ProductDetailsPage decreaseQuantity(int times) {
+        for (int i = 0; i < times; i++) {
+            waitClickable(decreaseQuantityButton).click();
+        }
+        return this;
+    }
+
     public ProductDetailsPage addToCart() {
         waitClickable(addToCartButton).click();
         return this;
+    }
+
+    public boolean isAddToCartButtonEnabled() {
+        return waitVisible(addToCartButton).isEnabled();
+    }
+
+    public CatalogPage goBackToCatalog() {
+        driver.navigate().back();
+        return new CatalogPage(driver);
     }
 }

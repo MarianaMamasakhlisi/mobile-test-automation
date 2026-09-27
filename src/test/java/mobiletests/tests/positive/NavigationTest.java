@@ -32,4 +32,15 @@ public class NavigationTest extends BaseTest {
 
         Assert.assertTrue(cart.isDisplayed(), "Expected to land on the cart screen after tapping the cart icon");
     }
+
+    @Test(description = "The back button returns from product details to the catalog")
+    @Description("Confirms Android back navigation from the product details screen lands back on the catalog")
+    public void productDetails_backNavigatesToCatalog() {
+        CatalogPage catalog = new CatalogPage(driver);
+        ProductDetailsPage details = catalog.openFirstProduct();
+
+        CatalogPage catalogAfterBack = details.goBackToCatalog();
+
+        Assert.assertTrue(catalogAfterBack.isDisplayed(), "Back navigation should return to the product catalog");
+    }
 }

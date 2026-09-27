@@ -19,6 +19,9 @@ public class DrawerMenu extends BasePage {
     @AndroidFindBy(id = "android:id/button1")
     private WebElement confirmationDialogPositiveButton;
 
+    @AndroidFindBy(id = "android:id/button2")
+    private WebElement confirmationDialogNegativeButton;
+
     public DrawerMenu(AndroidDriver driver) {
         super(driver);
     }
@@ -42,6 +45,13 @@ public class DrawerMenu extends BasePage {
         return new LoginPage(driver);
     }
 
+    public CatalogPage cancelLogout() {
+        open();
+        waitClickable(logoutMenuItem).click();
+        waitClickable(confirmationDialogNegativeButton).click();
+        return new CatalogPage(driver);
+    }
+
     public boolean isUserLoggedIn() {
         open();
         boolean loggedIn = isDisplayedSafely(logoutMenuItem);
@@ -49,9 +59,10 @@ public class DrawerMenu extends BasePage {
         return loggedIn;
     }
 
-    public void openMenuItem(String label) {
+    public CatalogPage openMenuItem(String label) {
         open();
         driver.findElement(AppiumBy.androidUIAutomator(
                 "new UiSelector().text(\"" + label + "\")")).click();
+        return new CatalogPage(driver);
     }
 }

@@ -23,6 +23,15 @@ public class CatalogPage extends BasePage {
     @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/cartTV")
     private WebElement cartBadgeCount;
 
+    @AndroidFindBy(accessibility = "Shows current sorting order and displays available sorting options")
+    private WebElement sortButton;
+
+    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/nameDesCL")
+    private WebElement sortNameDescendingOption;
+
+    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/priceAscCL")
+    private WebElement sortPriceAscendingOption;
+
     public CatalogPage(AndroidDriver driver) {
         super(driver);
     }
@@ -48,8 +57,12 @@ public class CatalogPage extends BasePage {
     }
 
     public ProductDetailsPage openFirstProduct() {
-        waitVisible(productTitles.get(0));
-        waitClickable(productImages.get(0)).click();
+        return openProductAt(0);
+    }
+
+    public ProductDetailsPage openProductAt(int index) {
+        waitVisible(productTitles.get(index));
+        waitClickable(productImages.get(index)).click();
         return new ProductDetailsPage(driver);
     }
 
@@ -69,7 +82,29 @@ public class CatalogPage extends BasePage {
         return Integer.parseInt(cartBadgeCount.getText());
     }
 
+    // The badge updates asynchronously after actions like adding an item or resetting app
+    // state, so checking right after such an action needs to poll rather than read once.
+    public void waitForCartItemCount(int expectedCount) {
+        wait.until(driver -> getCartItemCount() == expectedCount);
+    }
+
     public DrawerMenu openDrawer() {
         return new DrawerMenu(driver);
+    }
+
+    public String getFirstProductName() {
+        return waitVisible(productTitles.get(0)).getText();
+    }
+
+    public CatalogPage sortByNameDescending() {
+        waitClickable(sortButton).click();
+        waitClickable(sortNameDescendingOption).click();
+        return this;
+    }
+
+    public CatalogPage sortByPriceAscending() {
+        waitClickable(sortButton).click();
+        waitClickable(sortPriceAscendingOption).click();
+        return this;
     }
 }

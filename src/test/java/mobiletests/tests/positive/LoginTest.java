@@ -28,4 +28,20 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(catalogAfterLogin.openDrawer().isUserLoggedIn(),
                 "Drawer menu should show 'Log Out' once the user is authenticated");
     }
+
+    @Test(description = "The visual-testing demo account can also log in successfully")
+    @Story("Visual user login")
+    @Description("Logs in with the demo app's visual-testing account, used elsewhere to demo visual-regression bugs")
+    public void visualUserCredentials_logsUserIn() {
+        CatalogPage catalog = new CatalogPage(driver);
+        DrawerMenu drawer = catalog.openDrawer();
+        LoginPage loginPage = drawer.openLoginScreen();
+
+        loginPage.useVisualUserCredentials();
+        CatalogPage catalogAfterLogin = loginPage.submitValidLogin();
+
+        Assert.assertTrue(catalogAfterLogin.isDisplayed(), "Expected to land back on the product catalog after login");
+        Assert.assertTrue(catalogAfterLogin.openDrawer().isUserLoggedIn(),
+                "Drawer menu should show 'Log Out' once the visual user is authenticated");
+    }
 }

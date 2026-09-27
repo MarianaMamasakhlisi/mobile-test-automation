@@ -25,6 +25,12 @@ public class LoginPage extends BasePage {
     @AndroidFindBy(accessibility = "Tap to use this username for login")
     private WebElement firstSuggestedUsername;
 
+    @AndroidFindBy(accessibility = "Visual User Login")
+    private WebElement visualUserUsername;
+
+    @AndroidFindBy(id = "com.saucelabs.mydemoapp.android:id/nameErrorTV")
+    private WebElement usernameErrorMessage;
+
     public LoginPage(AndroidDriver driver) {
         super(driver);
     }
@@ -72,5 +78,18 @@ public class LoginPage extends BasePage {
 
     public boolean isErrorMessageDisplayed() {
         return isDisplayedSafely(loginErrorMessage);
+    }
+
+    public LoginPage useVisualUserCredentials() {
+        waitClickable(visualUserUsername).click();
+        return this;
+    }
+
+    public String getUsernameErrorMessage() {
+        return waitVisible(usernameErrorMessage).getText();
+    }
+
+    public boolean isUsernameErrorDisplayed() {
+        return isDisplayedSafely(usernameErrorMessage);
     }
 }

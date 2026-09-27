@@ -4,6 +4,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import mobiletests.config.ConfigReader;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,6 +20,9 @@ public abstract class BasePage {
     protected BasePage(AndroidDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(ConfigReader.getInt("explicitWaitSeconds")));
+        // A screen transition can swap out the underlying view between the wait's polls;
+        // retry instead of failing the whole wait on one stale read.
+        this.wait.ignoring(StaleElementReferenceException.class);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
@@ -40,5 +44,14 @@ public abstract class BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // These forms come pre-filled with sample data, but the field's displayed text isn't
+    // recognised by the app's own validation until the user actually edits it - clearing and
+    // re-entering the same value "activates" it without changing what the field shows.
+    protected void retype(WebElement field) {
+        String currentValue = field.getText();
+        field.clear();
+        field.sendKeys(currentValue);
     }
 }

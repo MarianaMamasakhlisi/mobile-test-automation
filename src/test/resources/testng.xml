@@ -7,12 +7,16 @@
             <class name="mobiletests.tests.positive.LogoutTest"/>
             <class name="mobiletests.tests.positive.NavigationTest"/>
             <class name="mobiletests.tests.positive.CartTest"/>
+            <class name="mobiletests.tests.positive.CatalogSortTest"/>
+            <class name="mobiletests.tests.positive.CheckoutCompletionTest"/>
+            <class name="mobiletests.tests.positive.ResetAppStateTest"/>
         </classes>
     </test>
     <test name="Negative scenarios">
         <classes>
             <class name="mobiletests.tests.negative.LoginNegativeTest"/>
             <class name="mobiletests.tests.negative.CheckoutValidationTest"/>
+            <class name="mobiletests.tests.negative.CartNegativeTest"/>
         </classes>
     </test>
 </suite>
